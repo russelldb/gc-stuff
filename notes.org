@@ -3,3 +3,5 @@
 I made a rough chart but I want to do a compare and make it
 prettier/more GC ish
 *** TODO add compare support
+DT <- AL[[1]$activity$time[1] to get the POSIXct for the activity to
+pass to GC.activity.intervals(activity=DT)

@@ -1,0 +1,5 @@
+* Charts I want
+** 30 second efforts
+I made a rough chart but I want to do a compare and make it
+prettier/more GC ish
+*** TODO add compare support

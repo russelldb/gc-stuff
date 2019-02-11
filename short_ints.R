@@ -47,7 +47,7 @@ get_intervals <- function(activity=0) {
 
 ## each activity should be a list(pair) of 'activity' and 'color'. Use
 ## 'color' to match GCs compare color
-plot_intervals <- function(p, i, color="blue") {
+plot_intervals <- function(p, i) {
     ## TODO extract to constants for easier customisation by users
     ## TODO this should be ZONE based too!
 
@@ -58,9 +58,9 @@ plot_intervals <- function(p, i, color="blue") {
 	II$Effort_Num <- 1:nrow(II)
 	II$Lab <- trunc(II$Average_Power)
 	df_av <- data.frame(y_values=mean(II$Average_Power))
-	p <- p + geom_point(data=II, mapping=aes(x=Effort_Num, y=Average_Power), color=color, size=3)
-        p <- p + geom_smooth(data=II, mapping=aes(x=Effort_Num, y=Average_Power), color=color)
-        p <- p + geom_hline(data=df_av, mapping=aes(yintercept=y_values), linetype="dashed", colour=color, size=1)
+	p <- p + geom_point(data=II, mapping=aes(x=Effort_Num, y=Average_Power, color=series_color))
+        p <- p + geom_smooth(data=II, mapping=aes(x=Effort_Num, y=Average_Power, color=series_color))
+        p <- p + geom_hline(data=df_av, mapping=aes(yintercept=y_values, color=II$series_color[1]), linetype="dashed")
         ## TODO figure out these scales
         ## p <- p + scale_x_continuous(breaks = 1:nrow(II))
         ## p <- p + scale_y_continuous( breaks = my_y_lab)
@@ -79,8 +79,10 @@ add_intervals_to_plot <- function(Activity, Plot) {
     DT <- Activity$activity$time[1]
     I <- get_intervals(activity=DT)
     Color <- Activity$color
-    plot_intervals(Plot, I, color=Color)
+    I$series_color <- Color
+    plot_intervals(Plot, I)
 }
+
 ## the `main` bit of the script
 
 ## docs say, if COMPARE panel is ON and there are activities in
@@ -90,6 +92,10 @@ add_intervals_to_plot <- function(Activity, Plot) {
 AL <- GC.activity(compare=TRUE)
 
 ## make a blank plot to add dataframes to, and iterate the activities
-p <- fold(AL, add_intervals_to_plot, ggplot())
+p <- ggplot()
+
+for(LI in AL) {
+    p <- add_intervals_to_plot(LI, p)
+}
 
 print(p)

@@ -1,3 +1,4 @@
+# with thanks to https://www.gribble.org/
 dtl <- function(loss ) {
     1 - (loss / 100)
 }
@@ -26,4 +27,27 @@ resist <- function(Weight, Grade, Crr, Cda, Rho, MPH, loss=0) {
     (dtl(loss) ^ -1) * rforces(Weight, Grade, Crr, Cda, Rho, MPH) * mph_to_ms(MPH)
 }
 
+# https://stagescycling.com/us/news/what-it-means-watts-to-kjs-to-kcals/
+kj <- function(Watts, Seconds) {
+    (Watts * Seconds) / 1000
+}
 
+watts <- function(Kj, Seconds) {
+    (Kj * 1000) / Seconds
+}
+
+seconds <- function(Hours=0, Minutes=0, Seconds=0) {
+    (Hours * 3600) + (Minutes * 60) + Seconds
+}
+
+cals <- function(Kj) {
+    (Kj / 4.186) / .22
+}
+
+kj_from_cals <- function(Cals) {
+    (Cals * 4.186) * .22
+}
+
+hp <- function(Watts) {
+    Watts / 746
+}

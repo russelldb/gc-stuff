@@ -1,4 +1,3 @@
-# with thanks to https://www.gribble.org/
 dtl <- function(loss ) {
     1 - (loss / 100)
 }
@@ -35,6 +34,12 @@ kj <- function(Watts, Seconds) {
 watts <- function(Kj, Seconds) {
     (Kj * 1000) / Seconds
 }
+
+duration <- function(Kj, Watts) {
+    (Kj / Watts) * 1000
+}
+
+
 
 seconds <- function(Hours=0, Minutes=0, Seconds=0) {
     (Hours * 3600) + (Minutes * 60) + Seconds
